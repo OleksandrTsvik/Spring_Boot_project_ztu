@@ -1,0 +1,30 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/head :: head(title='Додати категорію')"></div>
+<body>
+<div th:replace="fragments/header :: header(link='/admin/category')"></div>
+<main class="main main__wrapper container">
+    <div class="title">Форма категорії</div>
+    <th:block th:if="${not #strings.isEmpty(successMessage)}">
+        <p class="alert alert__success" th:text="${successMessage}"></p>
+    </th:block>
+    <th:block th:if="${not #strings.isEmpty(dangerMessage)}">
+        <p class="alert alert__danger" th:text="${dangerMessage}"></p>
+    </th:block>
+    <form
+            th:action="@{/admin/category}"
+            th:object="${category}"
+            method="post"
+            class="form"
+    >
+        <input type="hidden" th:field="*{id}" />
+        <div class="form__field">
+            <label for="name" class="form__label">Назва</label>
+            <input th:field="*{name}" class="input" id="name" />
+            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" th:errorclass="field__errors"></p>
+        </div>
+        <button type="submit" class="btn btn__submit">Зберегти</button>
+    </form>
+</main>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

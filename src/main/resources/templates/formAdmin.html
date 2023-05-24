@@ -1,0 +1,42 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/head :: head(title='Додати адміністратора')"></div>
+<body>
+<div th:replace="fragments/header :: header(link='/admin/add')"></div>
+<main class="main main__wrapper container">
+    <div class="title">Форма адміністратора</div>
+    <th:block th:if="${not #strings.isEmpty(successMessage)}">
+        <p class="alert alert__success" th:text="${successMessage}"></p>
+    </th:block>
+    <th:block th:if="${not #strings.isEmpty(dangerMessage)}">
+        <p class="alert alert__danger" th:text="${dangerMessage}"></p>
+    </th:block>
+    <form
+            th:action="@{/admin/add}"
+            th:object="${admin}"
+            method="post"
+            class="form"
+    >
+        <input type="hidden" th:field="*{id}" />
+        <div class="form__field">
+            <label for="email" class="form__label">Електронна пошта</label>
+            <input th:field="*{email}" class="input" id="email" />
+            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" th:errorclass="field__errors"></p>
+        </div>
+        <div class="form__field">
+            <label for="password" class="form__label">Пароль</label>
+            <input th:field="*{password}" type="password" class="input" id="password" />
+            <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" th:errorclass="field__errors"></p>
+        </div>
+        <div class="form__field">
+            <label for="confirmPassword" class="form__label">Повторіть пароль</label>
+            <input th:field="*{confirmPassword}" type="password" class="input" id="confirmPassword" />
+            <p th:if="${#fields.hasErrors('confirmPassword')}"
+               th:errors="*{confirmPassword}"
+               th:errorclass="field__errors"></p>
+        </div>
+        <button type="submit" class="btn btn__submit">Зберегти</button>
+    </form>
+</main>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

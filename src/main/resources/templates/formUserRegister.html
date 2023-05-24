@@ -1,0 +1,52 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/head :: head(title='Реєстрація')"></div>
+<body>
+<div th:replace="fragments/header :: header(link='')"></div>
+<main class="main main__wrapper container">
+    <div class="title">Реєстрація</div>
+    <form
+            th:action="@{/user/register}"
+            th:object="${register}"
+            method="post"
+            class="form form__auth"
+    >
+        <th:block th:if="${not #strings.isEmpty(registerMessage)}">
+            <p class="alert alert__danger" th:text="${registerMessage}"></p>
+        </th:block>
+        <div class="form__field">
+            <label for="fullName" class="form__label">ПІБ</label>
+            <input th:field="*{fullName}" class="input" id="fullName" />
+            <p th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}" th:errorclass="field__errors"></p>
+        </div>
+        <div class="form__field">
+            <label for="phoneNumber" class="form__label">Номер телефону</label>
+            <input th:field="*{phoneNumber}" class="input" id="phoneNumber" />
+            <p th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" th:errorclass="field__errors"></p>
+        </div>
+        <div class="form__field">
+            <label for="email" class="form__label">Електронна пошта</label>
+            <input th:field="*{email}" class="input" id="email" />
+            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" th:errorclass="field__errors"></p>
+        </div>
+        <div class="form__field">
+            <label for="password" class="form__label">Пароль</label>
+            <input th:field="*{password}" type="password" class="input" id="password" />
+            <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" th:errorclass="field__errors"></p>
+        </div>
+        <div class="form__field">
+            <label for="confirmPassword" class="form__label">Повторіть пароль</label>
+            <input th:field="*{confirmPassword}" type="password" class="input" id="confirmPassword" />
+            <p th:if="${#fields.hasErrors('confirmPassword')}"
+               th:errors="*{confirmPassword}"
+               th:errorclass="field__errors"></p>
+        </div>
+        <button type="submit" class="btn btn__submit auth__btn">Зареєструватися</button>
+        <div class="auth__link">
+            <div>Вже є акаунт?</div>
+            <a th:href="@{/user/login}">Увійти</a>
+        </div>
+    </form>
+</main>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

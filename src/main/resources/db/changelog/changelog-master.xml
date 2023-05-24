@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd"
+>
+
+    <!--    <changeSet id="2023-05-24_01:05" author="Oleksandr_Tsvik">-->
+    <!--        <comment>Added_columns_for_Spring_Security</comment>-->
+    <!--        <sqlFile path="sql/add_columns_for_spring_security.sql" relativeToChangelogFile="true" />-->
+    <!--    </changeSet>-->
+
+</databaseChangeLog>

@@ -1,0 +1,32 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/head :: head(title=${dish.name})"></div>
+<body>
+<div th:replace="fragments/header :: header(link='')"></div>
+<main class="main main__wrapper container">
+    <div class="dish">
+        <div class="dish__image">
+            <th:block th:if="${not #strings.isEmpty(dish.imageName)}">
+                <img th:src="@{'/images/' + ${dish.imageName}}" alt="Dish image" />
+            </th:block>
+            <th:block th:unless="${not #strings.isEmpty(dish.imageName)}">
+                <img th:src="@{/images/default-dish.jpg}" alt="Default dish image" />
+            </th:block>
+        </div>
+        <div class="dish__body">
+            <div class="dish__content">
+                <div class="dish__title" th:text="${dish.name}"></div>
+                <div class="dish__components" th:text="${dish.components}"></div>
+                <th:block th:if="${not #strings.isEmpty(dish.description)}">
+                    <div class="dish__description" th:text="${dish.description}"></div>
+                </th:block>
+            </div>
+            <div class="dish__buy">
+                <a th:href="@{/user/dish}" class="btn">Додати в кошик</a>
+                <span th:text="|${dish.price} грн.|"></span>
+            </div>
+        </div>
+    </div>
+</main>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/head :: head(title='Користувачі')"></div>
+<body>
+<div th:replace="fragments/header :: header(link='/admin/users')"></div>
+<main class="main main__wrapper container">
+    <h2 class="title">Користувачі</h2>
+    <th:block th:if="${not #strings.isEmpty(infoMessage)}">
+        <p class="alert alert__info" th:text="${infoMessage}"></p>
+    </th:block>
+    <th:block th:if="${#lists.isEmpty(users)}">
+        <div class="empty-block">Користувачі відсутні</div>
+    </th:block>
+    <th:block th:unless="${#lists.isEmpty(users)}">
+        <table class="table table__users">
+            <tr>
+                <th>ID</th>
+                <th>ПІБ</th>
+                <th>Номер телефону</th>
+                <th>Електронна пошта</th>
+                <th class="actions"></th>
+            </tr>
+            <th:block th:each="user : ${users}">
+                <tr>
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.fullName}"></td>
+                    <td th:text="${user.phoneNumber}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td>
+                        <div class="actions">
+                            <th:block th:if="${user.enabled}">
+                                <a th:href="@{'/admin/user/toggle/' + ${user.id}}" title="Заблокувати"
+                                   class="_icon-eye btn btn__action"></a>
+                            </th:block>
+                            <th:block th:unless="${user.enabled}">
+                                <a th:href="@{'/admin/user/toggle/' + ${user.id}}" title="Розблокувати"
+                                   class="_icon-eye-blocked btn btn__danger btn__action"></a>
+                            </th:block>
+                            <a th:href="@{'/admin/user/delete/' + ${user.id}}"
+                               class="_icon-trash btn btn__danger btn__action"></a>
+                        </div>
+                    </td>
+                </tr>
+            </th:block>
+        </table>
+    </th:block>
+</main>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

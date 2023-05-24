@@ -1,0 +1,87 @@
+<header
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+        th:fragment="header(link)"
+        class="header"
+>
+    <div class="header__content container">
+        <div class="header__menu menu">
+            <a th:href="@{/}" class="logo">LOGOS</a>
+            <div class="menu__burger">
+                <span></span>
+            </div>
+            <nav class="menu__body">
+                <div class="menu__center">
+                    <form class="menu__search" th:action="@{/dishes}" method="get">
+                        <input class="search__input input" th:name="dishName" placeholder="Введіть назву страви" />
+                        <button type="submit" class="search__btn _icon-search"></button>
+                    </form>
+                    <a href="tel:+380987654321" class="menu__contacts">
+                        <div class="menu__calling _icon-calling"></div>
+                        <div>
+                            <div class="contacts__title">Контакти:</div>
+                            <div class="contacts__phone">+38 (098) 765-43-21</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="menu__left">
+                    <th:block sec:authorize="not isAuthenticated()">
+                        <a th:href="@{/user/login}" class="menu__user _icon-user">Увійти</a>
+                        <a th:href="@{/user/login}" class="menu__basket basket__without-pill">
+                            <span class="basket__text">Корзина</span>
+                        </a>
+                    </th:block>
+                    <th:block sec:authorize="isAuthenticated()">
+                        <th:block sec:authorize="not hasRole('ADMIN')">
+                            <form th:action="@{/user/logout}" method="post">
+                                <button type="submit" class="menu__user _icon-user">Вийти</button>
+                            </form>
+                        </th:block>
+                        <th:block sec:authorize="hasRole('ADMIN')">
+                            <form th:action="@{/admin/logout}" method="post">
+                                <button type="submit" class="menu__user _icon-user">Вийти</button>
+                            </form>
+                        </th:block>
+
+                        <th:block sec:authorize="not hasRole('ADMIN')">
+                            <a th:href="@{/user/basket}" class="menu__basket">
+                                <span class="basket__text">Корзина</span>
+                                <span class="basket__pill">4</span>
+                            </a>
+                        </th:block>
+                    </th:block>
+                </div>
+            </nav>
+        </div>
+        <th:block sec:authorize="hasRole('ADMIN')">
+            <div class="header__admin menu__draggable">
+                <div class="draggable__icon-left">
+                    <i class="_icon-up-arrow"></i>
+                </div>
+                <nav class="admin__list draggable__list">
+                    <th:block
+                            th:each="item : ${T(ztu.education.spring_boot_web_project.utils.NavBar).getAdminNavBar()}"
+                    >
+                        <th:block th:if="${not #strings.isEmpty(link)} and ${item.link.equals(link)}">
+                            <a
+                                    th:href="@{${item.link}}"
+                                    th:text="${item.label}"
+                                    class="admin__item draggable__item active"
+                            ></a>
+                        </th:block>
+                        <th:block th:if="${#strings.isEmpty(link)} or ${not item.link.equals(link)}">
+                            <a
+                                    th:href="@{${item.link}}"
+                                    th:text="${item.label}"
+                                    class="admin__item draggable__item"
+                            ></a>
+                        </th:block>
+                    </th:block>
+                </nav>
+                <div class="draggable__icon-right">
+                    <i class="_icon-up-arrow"></i>
+                </div>
+            </div>
+        </th:block>
+    </div>
+</header>

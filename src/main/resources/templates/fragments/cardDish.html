@@ -1,0 +1,29 @@
+<div
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+        th:fragment="cardDish(dish)"
+        class="card__dish"
+>
+    <a th:href="@{/dish/{id}(id=${dish.id})}" class="card__image">
+        <th:block th:if="${not #strings.isEmpty(dish.imageName)}">
+            <img th:src="@{'/images/' + ${dish.imageName}}" alt="Dish image" />
+        </th:block>
+        <th:block th:unless="${not #strings.isEmpty(dish.imageName)}">
+            <img th:src="@{/images/default-dish.jpg}" alt="Default dish image" />
+        </th:block>
+    </a>
+    <div class="card__content">
+        <div class="card__body">
+            <p th:text="${dish.name}"></p>
+            <p class="card__dish-price" th:text="|${dish.price} грн.|"></p>
+        </div>
+        <th:block sec:authorize="hasRole('ADMIN')">
+            <div class="card__footer">
+                <a th:href="@{'/admin/dish/edit/' + ${dish.id}}"
+                   class="_icon-pencil btn btn__primary btn__action"></a>
+                <a th:href="@{'/admin/dish/delete/' + ${dish.id}}"
+                   class="_icon-trash btn btn__danger btn__action"></a>
+            </div>
+        </th:block>
+    </div>
+</div>

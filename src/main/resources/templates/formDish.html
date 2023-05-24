@@ -1,0 +1,63 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/head :: head(title='Додати страву')"></div>
+<body>
+<div th:replace="fragments/header :: header(link='/admin/dish')"></div>
+<main class="main main__wrapper container">
+    <div class="title">Форма страви</div>
+    <th:block th:if="${not #strings.isEmpty(successMessage)}">
+        <p class="alert alert__success" th:text="${successMessage}"></p>
+    </th:block>
+    <th:block th:if="${not #strings.isEmpty(dangerMessage)}">
+        <p class="alert alert__danger" th:text="${dangerMessage}"></p>
+    </th:block>
+    <form
+            th:action="@{/admin/dish}"
+            th:object="${dish}"
+            method="post"
+            class="form"
+            enctype="multipart/form-data"
+    >
+        <input type="hidden" th:field="*{id}" />
+        <div class="form__field">
+            <label for="name" class="form__label">Назва</label>
+            <input th:field="*{name}" class="input" id="name" />
+            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" th:errorclass="field__errors"></p>
+        </div>
+        <div class="form__field">
+            <label for="categoryDish.id" class="form__label">Категорія</label>
+            <div class="select__wrapper">
+                <select th:field="*{categoryDish.id}" id="categoryDish.id">
+                    <!-- <option value="" label="Оберіть категорію"></option> -->
+                    <option
+                            th:each="category : ${categoriesDish}"
+                            th:value="${category.id}"
+                            th:text="${category.name}"
+                    ></option>
+                </select>
+            </div>
+        </div>
+        <div class="form__field">
+            <label for="description" class="form__label">Опис</label>
+            <textarea th:field="*{description}" class="input" id="description"></textarea>
+            <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" th:errorclass="field__errors"></p>
+        </div>
+        <div class="form__field">
+            <label for="components" class="form__label">Складові</label>
+            <input th:field="*{components}" class="input" id="components" />
+            <p th:if="${#fields.hasErrors('components')}" th:errors="*{components}" th:errorclass="field__errors"></p>
+        </div>
+        <div class="form__field">
+            <label for="price" class="form__label">Ціна</label>
+            <input th:field="*{price}" class="input" id="price" />
+            <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" th:errorclass="field__errors"></p>
+        </div>
+        <div class="form__field">
+            <label for="image" class="form__label">Фото</label>
+            <input th:field="*{image}" type="file" class="input" id="image" />
+        </div>
+        <button type="submit" class="btn btn__submit">Зберегти</button>
+    </form>
+</main>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/head :: head(title='Not Found')"></div>
+<body>
+<div th:replace="fragments/header :: header(link='')"></div>
+<main class="main main__wrapper container container__status-error">
+    <div class="status-error__wrapper">
+        <h1>Oops!</h1>
+        <h2>404 Not Found</h2>
+        <div>Sorry, an error has occurred, Requested page not found!</div>
+        <div>
+            <a th:href="@{/}" class="btn btn__status-error btn__404">
+                <i class="_icon-home"></i>Home
+            </a>
+        </div>
+    </div>
+</main>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

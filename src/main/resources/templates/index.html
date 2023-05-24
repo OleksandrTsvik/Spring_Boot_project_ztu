@@ -1,0 +1,50 @@
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+>
+<div th:replace="fragments/head :: head(title='Головна')"></div>
+<body>
+<div th:replace="fragments/header :: header(link='')"></div>
+<main class="main container">
+    <img class="banner__img" th:src="@{/images/banner-1.png}" alt="banner-1" />
+    <th:block sec:authorize="isAuthenticated()">
+        <div class="user_info alert alert__info">
+            <h4>Коротка інформація про користувача:</h4>
+            <p>Email: <span sec:authentication="principal"></span></p>
+            <p>Роль: <span sec:authentication="authorities"></span></p>
+        </div>
+    </th:block>
+    <th:block th:if="${#lists.isEmpty(categories)}">
+        <div class="empty-block">Страви відсутні</div>
+    </th:block>
+    <th:block th:unless="${#lists.isEmpty(categories)}">
+        <th:block th:each="category : ${categories}">
+            <th:block th:if="${category.dishes}">
+                <a
+                        th:href="@{/dishes(dishCategoryId=${category.id})}"
+                        th:text="${category.name}"
+                        class="category__title"
+                ></a>
+                <div class="menu__draggable">
+                    <div class="draggable__icon-left">
+                        <i class="_icon-up-arrow"></i>
+                    </div>
+                    <div class="cards__dishes draggable__list">
+                        <th:block th:each="dish : ${category.dishes}">
+                            <div
+                                    th:insert="fragments/cardDish :: cardDish(${dish})"
+                                    class="draggable__item"
+                            ></div>
+                        </th:block>
+                    </div>
+                    <div class="draggable__icon-right">
+                        <i class="_icon-up-arrow"></i>
+                    </div>
+                </div>
+            </th:block>
+        </th:block>
+    </th:block>
+</main>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

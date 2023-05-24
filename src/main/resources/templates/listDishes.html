@@ -1,0 +1,29 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/head :: head(title='Страви')"></div>
+<body>
+<div th:replace="fragments/header :: header(link='/dishes')"></div>
+<main class="main main__wrapper container">
+    <h2 class="title">Страви</h2>
+    <th:block th:if="${not #strings.isEmpty(searchByDishName)}">
+        <p class="search__parameter" th:text="|Пошук страв за назвою: &quot;${searchByDishName}&quot;|"></p>
+    </th:block>
+    <th:block th:if="${searchByDishCategory}">
+        <p class="search__parameter" th:text="|Страви з категорії: ${searchByDishCategory.name}|"></p>
+    </th:block>
+    <th:block th:if="${not #strings.isEmpty(deleteMessage)}">
+        <p class="alert alert__info" th:text="${deleteMessage}"></p>
+    </th:block>
+    <th:block th:if="${#lists.isEmpty(dishes)}">
+        <div class="empty-block">Страви відсутні</div>
+    </th:block>
+    <th:block th:unless="${#lists.isEmpty(dishes)}">
+        <div class="cards__dishes">
+            <th:block th:each="dish : ${dishes}">
+                <div th:replace="fragments/cardDish :: cardDish(${dish})"></div>
+            </th:block>
+        </div>
+    </th:block>
+</main>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

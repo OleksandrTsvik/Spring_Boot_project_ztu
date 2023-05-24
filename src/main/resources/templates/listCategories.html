@@ -1,0 +1,41 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/head :: head(title='Категорії')"></div>
+<body>
+<div th:replace="fragments/header :: header(link='/admin/categories')"></div>
+<main class="main main__wrapper container">
+    <h2 class="title">Категорії</h2>
+    <th:block th:if="${not #strings.isEmpty(deleteMessage)}">
+        <p class="alert alert__info" th:text="${deleteMessage}"></p>
+    </th:block>
+    <th:block th:if="${#lists.isEmpty(categories)}">
+        <div class="empty-block">Категорії відсутні</div>
+    </th:block>
+    <th:block th:unless="${#lists.isEmpty(categories)}">
+        <table class="table table__categories">
+            <tr>
+                <th>ID</th>
+                <th>Категорія</th>
+                <th class="count">Кількість страв</th>
+                <th class="actions"></th>
+            </tr>
+            <th:block th:each="category : ${categories}">
+                <tr>
+                    <td th:text="${category.id}"></td>
+                    <td th:text="${category.name}"></td>
+                    <td class="count" th:text="${category.dishes.size()}"></td>
+                    <td>
+                        <div class="actions">
+                            <a th:href="@{'/admin/category/edit/' + ${category.id}}"
+                               class="_icon-pencil btn btn__primary btn__action"></a>
+                            <a th:href="@{'/admin/category/delete/' + ${category.id}}"
+                               class="_icon-trash btn btn__danger btn__action"></a>
+                        </div>
+                    </td>
+                </tr>
+            </th:block>
+        </table>
+    </th:block>
+</main>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

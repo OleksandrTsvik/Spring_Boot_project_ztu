@@ -1,0 +1,36 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/head :: head(title='Вхід')"></div>
+<body>
+<div th:replace="fragments/header :: header(link='')"></div>
+<main class="main main__wrapper container">
+    <div class="title">Вхід</div>
+    <form
+            id="form-login"
+            th:action="@{/user/login}"
+            method="post"
+            class="form form__auth"
+    >
+        <th:block th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']}">
+            <p class="alert alert__danger" th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}"></p>
+        </th:block>
+        <div class="form__field">
+            <label for="email" class="form__label">Електронна пошта</label>
+            <input class="input" name="email" id="email" />
+        </div>
+        <div class="form__field">
+            <label for="password" class="form__label">Пароль</label>
+            <input type="password" class="input" name="password" id="password" />
+        </div>
+        <button type="submit" class="btn btn__submit auth__btn">Увійти</button>
+        <div class="auth__link">
+            <div>Немає облікового запису?</div>
+            <a th:href="@{/user/register}">Перейти до реєстрації</a>
+        </div>
+        <div class="auth__admin-link">
+            <a th:href="@{/admin/login}">Увійти як адміністратор</a>
+        </div>
+    </form>
+</main>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

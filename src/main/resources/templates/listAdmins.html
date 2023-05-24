@@ -1,0 +1,39 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/head :: head(title='Адміністратори')"></div>
+<body>
+<div th:replace="fragments/header :: header(link='/admin/admins')"></div>
+<main class="main main__wrapper container">
+    <h2 class="title">Адміністратори</h2>
+    <th:block th:if="${not #strings.isEmpty(deleteMessage)}">
+        <p class="alert alert__info" th:text="${deleteMessage}"></p>
+    </th:block>
+    <th:block th:if="${#lists.isEmpty(admins)}">
+        <div class="empty-block">Адміністратори відсутні</div>
+    </th:block>
+    <th:block th:unless="${#lists.isEmpty(admins)}">
+        <table class="table table__admins">
+            <tr>
+                <th>ID</th>
+                <th>Електронна пошта</th>
+                <th class="actions"></th>
+            </tr>
+            <th:block th:each="admin : ${admins}">
+                <tr>
+                    <td th:text="${admin.id}"></td>
+                    <td th:text="${admin.email}"></td>
+                    <td>
+                        <div class="actions">
+                            <a th:href="@{'/admin/edit/' + ${admin.id}}"
+                               class="_icon-pencil btn btn__primary btn__action"></a>
+                            <a th:href="@{'/admin/delete/' + ${admin.id}}"
+                               class="_icon-trash btn btn__danger btn__action"></a>
+                        </div>
+                    </td>
+                </tr>
+            </th:block>
+        </table>
+    </th:block>
+</main>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
