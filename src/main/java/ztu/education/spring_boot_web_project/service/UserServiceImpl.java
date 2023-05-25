@@ -8,7 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import ztu.education.spring_boot_web_project.dto.UserLoginDTO;
 import ztu.education.spring_boot_web_project.dto.UserRegisterDTO;
+import ztu.education.spring_boot_web_project.dto.UserUpdateDTO;
 import ztu.education.spring_boot_web_project.entity.User;
+import ztu.education.spring_boot_web_project.exception_handling.NotFoundUserException;
 import ztu.education.spring_boot_web_project.repository.UserRepository;
 
 import java.util.List;
@@ -19,6 +21,12 @@ public class UserServiceImpl implements UserService {
     BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     private UserRepository userRepository;
+
+    @Override
+    @Transactional
+    public User getUser(int id) {
+        return userRepository.findUserById(id);
+    }
 
     @Override
     @Transactional
@@ -66,6 +74,32 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User login(String email, String password) {
         return this.login(new UserLoginDTO(email, password));
+    }
+
+    @Override
+    @Transactional
+    public User update(UserUpdateDTO userUpdateDTO) {
+        User user = userRepository.findUserById(userUpdateDTO.getId());
+        if (user == null) {
+            throw new NotFoundUserException("Не вдалося знайти користувача з 'id'=" + userUpdateDTO.getId());
+        }
+
+        User userByEmail = userRepository.findUserByEmail(userUpdateDTO.getEmail());
+        if (userByEmail != null && userByEmail.getId() != user.getId()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Електронна адреса уже використовується");
+        }
+
+        User userByPhoneNumber = userRepository.findUserByPhoneNumber(userUpdateDTO.getPhoneNumber());
+        if (userByPhoneNumber != null && userByPhoneNumber.getId() != user.getId()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Номер телефону уже використовується");
+        }
+
+        user.setFullName(userUpdateDTO.getFullName());
+        user.setPhoneNumber(userUpdateDTO.getPhoneNumber());
+        user.setEmail(userUpdateDTO.getEmail());
+        user.setPassword(bCryptPasswordEncoder.encode(userUpdateDTO.getPassword()));
+
+        return userRepository.save(user);
     }
 
     @Override

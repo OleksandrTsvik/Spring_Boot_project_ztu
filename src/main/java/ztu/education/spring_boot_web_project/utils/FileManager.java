@@ -10,6 +10,8 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 public class FileManager {
+    public static final String PATH_IMAGES_DIR = System.getProperty("user.dir") + "\\src\\main\\upload\\static\\images";
+
     public static String uploadFile(MultipartFile file, String pathDir) throws IOException {
         if (file == null || file.isEmpty()) {
             return null;
