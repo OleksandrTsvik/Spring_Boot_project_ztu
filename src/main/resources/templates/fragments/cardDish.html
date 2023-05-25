@@ -6,7 +6,7 @@
 >
     <a th:href="@{/dish/{id}(id=${dish.id})}" class="card__image">
         <th:block th:if="${not #strings.isEmpty(dish.imageName)}">
-            <img th:src="@{'/images/' + ${dish.imageName}}" alt="Dish image" />
+            <img th:src="@{'/upload/static/images/' + ${dish.imageName}}" alt="Dish image" />
         </th:block>
         <th:block th:unless="${not #strings.isEmpty(dish.imageName)}">
             <img th:src="@{/images/default-dish.jpg}" alt="Default dish image" />

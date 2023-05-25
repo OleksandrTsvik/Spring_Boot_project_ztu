@@ -18,7 +18,8 @@ public class NavBar {
                 new NavBar("/admin/users", "Користувачі"),
                 new NavBar("/admin/orders", "Замовлення"),
                 new NavBar("/admin/admins", "Адміністратори"),
-                new NavBar("/admin/add", "Додати адміністратора")
+                new NavBar("/admin/add", "Додати адміністратора"),
+                new NavBar("/swagger-ui/index.html#/", "Swagger")
         };
     }
 

@@ -11,6 +11,7 @@ import ztu.education.spring_boot_web_project.dto.DishSaveDTO;
 import ztu.education.spring_boot_web_project.entity.Dish;
 import ztu.education.spring_boot_web_project.service.CategoryDishService;
 import ztu.education.spring_boot_web_project.service.DishService;
+import ztu.education.spring_boot_web_project.utils.FileManager;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -69,7 +70,7 @@ public class DishController {
             Model model
     ) {
         if (!bindingResult.hasErrors()) {
-            String pathImagesDir = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\images";
+            String pathImagesDir = FileManager.PATH_IMAGES_DIR;
 
             try {
                 dishService.saveOrUpdateDish(dish, pathImagesDir);
@@ -102,7 +103,7 @@ public class DishController {
             @PathVariable("id") int id,
             Model model
     ) {
-        String pathImagesDir = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\images";
+        String pathImagesDir = FileManager.PATH_IMAGES_DIR;
 
         try {
             dishService.deleteDish(id, pathImagesDir);

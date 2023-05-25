@@ -42,7 +42,7 @@ public class SecurityConfig {
                     .antMatchers("/dish/**", "/dishes/**").permitAll()
                     .antMatchers("/user/register", "/user/login", "/admin/login").anonymous()
                     .antMatchers("/user/**").hasRole("USER")
-                    .antMatchers("/admin/**").hasRole("ADMIN")
+                    .antMatchers("/admin/**", "/swagger-ui/**").hasRole("ADMIN")
                     // Усі інші сторінки є загальнодоступними для коректного відображення помилки 404
                     // Вказувати не обов'язково завдяки наступному налаштуванню
                     // .anyRequest().permitAll()
@@ -93,7 +93,7 @@ public class SecurityConfig {
             http.antMatcher("/admin/**")
                     .authorizeRequests()
                     .antMatchers("/user/register", "/user/login", "/admin/login").anonymous()
-                    .antMatchers("/admin/**").hasRole("ADMIN")
+                    .antMatchers("/admin/**", "/swagger-ui/**").hasRole("ADMIN")
 
                     .and()
                     .formLogin()
